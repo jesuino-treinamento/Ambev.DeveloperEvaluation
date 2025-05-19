@@ -125,7 +125,6 @@ public class UsersController : BaseController
         });
     }
 
-    [Authorize(Roles = "Admin , Manager, Customer")]
     [HttpGet]
     public async Task<ActionResult<PaginatedResponse<GetAllUserResult>>> GetAllUsers(
      [FromQuery] int page = 1,
