@@ -1,7 +1,6 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Events;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using MediatR;
-using System.ComponentModel.DataAnnotations;
 
 namespace Ambev.DeveloperEvaluation.Application.Sales.CancelSales
 {
@@ -16,15 +15,9 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.CancelSales
             _publisher = publisher;
         }
 
-        public async Task<CancelSaleResult> Handle(CancelSaleCommand request, CancellationToken cancellationToken)
-        {
-            var validator = new CancelSaleCommandValidator();
-            var validationResult = await validator.ValidateAsync(request, cancellationToken);
-
-            //if (!validationResult.IsValid)
-            //  throw new ValidationException(validationResult.Errors);
-
-            var sale = await _saleRepository.GetByIdAsync(request.SaleId, cancellationToken);
+        public async Task<CancelSaleResult> Handle(CancelSaleCommand command, CancellationToken cancellationToken)
+        {   
+            var sale = await _saleRepository.GetByIdAsync(command.SaleId, cancellationToken);
             if (sale == null)
                 throw new Exception("Sale not found.");
 

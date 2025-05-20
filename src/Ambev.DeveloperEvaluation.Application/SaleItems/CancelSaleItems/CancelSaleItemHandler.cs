@@ -35,7 +35,6 @@ namespace Ambev.DeveloperEvaluation.Application.SaleItems.CancelSaleItems
                 SaleId = saleItem.SaleId,
                 ItemId = saleItem.Id,
                 IsCancelled = saleItem.IsCancelled,
-                //CancellationDate = saleItem.CancellationDate
                 CancellationDate = saleItem.CancellationDate ?? DateTime.UtcNow
             };
         }

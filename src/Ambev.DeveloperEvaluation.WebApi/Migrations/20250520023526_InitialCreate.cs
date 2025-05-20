@@ -100,7 +100,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
                     total_amount = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
                     TotalDiscount = table.Column<decimal>(type: "numeric", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    Status = table.Column<int>(type: "integer", nullable: false),
+                    Status = table.Column<string>(type: "text", nullable: false),
                     cancellation_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     is_cancelled = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false)
                 },

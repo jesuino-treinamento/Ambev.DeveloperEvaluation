@@ -8,16 +8,16 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSales
         public CreateSaleCommandValidator()
         {
             RuleFor(x => x.CustomerId)
-                .NotEmpty().WithMessage("ID do cliente é obrigatório")
-                .Must(BeAValidGuid).WithMessage("ID do cliente inválido");
+                .NotEmpty().WithMessage("Customer ID is required")
+                .Must(BeAValidGuid).WithMessage("Invalid Customer ID format");
 
             RuleFor(x => x.BranchId)
-                .NotEmpty().WithMessage("ID da filial é obrigatório")
-                .Must(BeAValidGuid).WithMessage("ID da filial inválido");
+                .NotEmpty().WithMessage("Branch ID is required")
+                .Must(BeAValidGuid).WithMessage("Invalid Branch ID format");
 
             RuleFor(x => x.Products)
-                .NotEmpty().WithMessage("A venda deve conter pelo menos um item")
-                .Must(items => items.Count <= 100).WithMessage("A venda não pode conter mais de 100 itens");
+                .NotEmpty().WithMessage("Sale must contain at least one item")
+                .Must(items => items.Count <= 100).WithMessage("Sale cannot contain more than 100 items");
 
             RuleForEach(x => x.Products)
                 .SetValidator(new CreateSaleItemCommandValidator());
@@ -27,6 +27,5 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSales
         {
             return guid != Guid.Empty;
         }
-
     }
 }

@@ -1,6 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Application.Sales.GetSales;
-
-namespace Ambev.DeveloperEvaluation.Application.Sales.ListSale
+﻿namespace Ambev.DeveloperEvaluation.Application.Sales.ListSale
 {
     public class PageSaleResult
     {

@@ -35,7 +35,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Mapping
 
             builder.Property(s => s.Status)
                 .IsRequired()
-                .HasConversion<int>();
+                .HasConversion<string>();
 
             builder.HasIndex(s => s.SaleNumber)
                 .HasDatabaseName("ix_sales_number")

@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ambev.DeveloperEvaluation.WebApi.Migrations
 {
     [DbContext(typeof(DefaultContext))]
-    [Migration("20250517200033_InitialCreate")]
+    [Migration("20250520023526_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -151,8 +151,9 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
                         .HasColumnType("character varying(50)")
                         .HasColumnName("sale_number");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("integer");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<decimal>("TotalAmount")
                         .HasColumnType("numeric(18,2)")

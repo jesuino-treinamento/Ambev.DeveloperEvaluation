@@ -148,8 +148,9 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
                         .HasColumnType("character varying(50)")
                         .HasColumnName("sale_number");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("integer");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<decimal>("TotalAmount")
                         .HasColumnType("numeric(18,2)")
