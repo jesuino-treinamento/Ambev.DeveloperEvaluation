@@ -7,7 +7,6 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.ListSale
 {
     public class GetAllSaleHandler : IRequestHandler<GetAllSalesQuery, PaginatedList<GetSaleResult>>
     {
-
         private readonly ISaleRepository _saleRepository;
         private readonly IMapper _mapper;
 
@@ -20,7 +19,6 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.ListSale
         {
             try
             {
-
                 var salesPaginated = await _saleRepository.GetAllPaginatedAsync(
                    request.Page,
                    request.Size,
