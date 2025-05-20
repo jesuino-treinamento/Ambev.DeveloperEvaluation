@@ -6,22 +6,22 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
     public class Sale : BaseEntity
     {
         private bool _isCancelled;
-        public Guid CustomerId { get; private set; }
-        public Customer Customer { get; private set; }
+        public Guid CustomerId { get; set; }
+        public Customer Customer { get; set; }
 
-        public Guid BranchId { get; private set; }
-        public Branch Branch { get; private set; }
+        public Guid BranchId { get; set; }
+        public Branch Branch { get; set; }
 
         public string SaleNumber { get; set; }
 
 
-        public DateTime SaleDate { get; private set; }
+        public DateTime SaleDate { get; set; }
 
 
-        public decimal TotalAmount { get; private set; }
+        public decimal TotalAmount { get; set; }
 
-        public decimal TotalDiscount { get; private set; }
-        public DateTime? ModifiedDate { get; private set; }
+        public decimal TotalDiscount { get; set; }
+        public DateTime? ModifiedDate { get; set; }
 
         public virtual ICollection<SaleItem> Items { get; set; } = new List<SaleItem>();
 

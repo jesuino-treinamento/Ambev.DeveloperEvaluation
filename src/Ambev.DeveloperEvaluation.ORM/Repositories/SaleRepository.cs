@@ -17,30 +17,74 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
             _logger = logger;
         }
 
+        //public async Task<(IEnumerable<Sale> sales, int totalCount)> GetAllAsync(int page, int size, string orderBy)
+        //{
+        //    var query = _context.Sales
+        //     .Include(s => s.Items).ThenInclude(i => i.Product)
+        //     .Include(s => s.Customer).ThenInclude(c => c.User)
+        //     .Include(s => s.Branch)
+        //     .AsQueryable();
+
+        //    query = orderBy.ToLower() switch
+        //    {
+        //        "saledate" => query.OrderByDescending(s => s.SaleDate),
+        //        "total_amount" => query.OrderByDescending(s => s.TotalAmount),
+        //        "status" => query.OrderBy(s => s.Status),
+        //        _ => query.OrderByDescending(s => s.SaleDate)
+        //    };
+
+        //    var totalCount = await query.CountAsync();
+
+        //    var sales = await query
+        //        .Skip((page - 1) * size)
+        //        .Take(size)
+        //        .ToListAsync();
+
+        //    return (sales, totalCount);
+        //}
+
         public async Task<(IEnumerable<Sale> sales, int totalCount)> GetAllAsync(int page, int size, string orderBy)
         {
-            var query = _context.Sales
-             .Include(s => s.Items).ThenInclude(i => i.Product)
-             .Include(s => s.Customer).ThenInclude(c => c.User)
-             .Include(s => s.Branch)
-             .AsQueryable();
+            try
+            {
+                var totalCount = await _context.Sales.CountAsync();
 
-            query = orderBy.ToLower() switch
+                var query = _context.Sales.AsQueryable();
+
+                query = ApplyOrdering(query, orderBy);
+
+                var saleIds = await query
+                    .Skip((page - 1) * size)
+                    .Take(size)
+                    .Select(s => s.Id)
+                    .ToListAsync();
+
+                var sales = await _context.Sales
+                    .Where(s => saleIds.Contains(s.Id))
+                    .Include(s => s.Items)
+                        .ThenInclude(i => i.Product)
+                    .Include(s => s.Customer)
+                    .Include(s => s.Branch)
+                    .AsSplitQuery() 
+                    .ToListAsync();
+
+                return (sales, totalCount);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Failed to retrieve sales", ex);
+            }
+        }
+
+        private IQueryable<Sale> ApplyOrdering(IQueryable<Sale> query, string orderBy)
+        {
+            return orderBy.ToLower() switch
             {
                 "saledate" => query.OrderByDescending(s => s.SaleDate),
                 "total_amount" => query.OrderByDescending(s => s.TotalAmount),
                 "status" => query.OrderBy(s => s.Status),
                 _ => query.OrderByDescending(s => s.SaleDate)
             };
-
-            var totalCount = await query.CountAsync();
-
-            var sales = await query
-                .Skip((page - 1) * size)
-                .Take(size)
-                .ToListAsync();
-
-            return (sales, totalCount);
         }
         public async Task<PaginatedList<Sale>> GetAllPaginatedAsync(int page, int size, string orderBy)
         {
